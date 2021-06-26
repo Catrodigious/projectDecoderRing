@@ -24,7 +24,7 @@ function getKeyByValue(value, mapObj){
     for (const [k, v] of mapObj.entries()){
 
         if (v.column === value.column && v.row === value.row){
-        return k;
+            return k;
         }
     }
 
@@ -32,8 +32,4 @@ function getKeyByValue(value, mapObj){
 }
   
 
-module.exports = { 
-    getAlphabetArray,
-    stringToArray,
-    getKeyByValue,
-};
+module.exports = { getAlphabetArray, stringToArray, getKeyByValue };
