@@ -11,14 +11,14 @@ const caesarModule = (function () {
 
     let shiftMap = new Map();
     let alphabetArr = getAlphabetArray();
-    let inputArr = stringToArray(input.toLowerCase());
+    let inputArr = input.toLowerCase().split("");
     // account for shifts beyond 'z' and before 'a'
     // examples: 
     //  if shift is -3 and the letter is 'a', get index 22
     //  if shift is 3 and the letter is 'z', get index 2
     alphabetArr.map((letter)=>{
       let shiftedIndex = alphabetArr.indexOf(letter) + shift;
-      let offset;
+      let offset = 0;
 
       if (shiftedIndex > 25){ // 25 to account for 0th index
         offset = shiftedIndex - 26;
@@ -34,9 +34,7 @@ const caesarModule = (function () {
     return cipheredWord.reduce((word, letter)=>word+=letter, '');
   }
 
-  return {
-    caesar,
-  };
+  return { caesar, };
 })();
 
 module.exports = { caesar: caesarModule.caesar };

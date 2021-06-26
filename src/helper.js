@@ -3,33 +3,31 @@ function getAlphabetArray(caps=false){
     let asciiRep = caps ? 65 : 97;
     let allLetters = [];
 
-    let count = 0;
-    while (count < 26){
+    for (let n=0; n < 26; n++){
         allLetters.push(String.fromCharCode(asciiRep));
         asciiRep++;
-        count++;
     }
-    return allLetters
-}
 
-function stringToArray(str){
-    let strArr = [];
-    for (s of str){
-        strArr.push(s);
-    }
-    return strArr;
+    return allLetters;
 }
 
 function getKeyByValue(value, mapObj){
-    for (const [k, v] of mapObj.entries()){
-
-        if (v.column === value.column && v.row === value.row){
-            return k;
-        }
-    }
+    for (const [k, v] of mapObj.entries())
+        if (v.column === value.column && v.row === value.row) return k;
 
     return null;
 }
-  
 
-module.exports = { getAlphabetArray, stringToArray, getKeyByValue };
+// helper function for decodeData
+function inputIsEven(inputs){
+    let qtyNums = inputs.reduce((nums, input)=>{
+        if ((/[0-9]/).test(input)) nums++;
+        return nums;
+    }, 0);
+
+    return (qtyNums % 2 !== 0) ? false : true;
+}
+
+
+
+module.exports = { getAlphabetArray, getKeyByValue, inputIsEven };
