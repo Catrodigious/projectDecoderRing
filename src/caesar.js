@@ -2,7 +2,6 @@
 // as the index.html and test files rely on this setup to work properly.
 // Only add code (e.g., helper methods, variables, etc.) within the scope
 // of the anonymous function on line 6
-const { getAlphabetArray, stringToArray } = require('./helper');
 
 const caesarModule = (function () {
   function caesar(input, shift, encode = true) {
@@ -13,28 +12,51 @@ const caesarModule = (function () {
     let alphabetArr = getAlphabetArray();
     let inputArr = input.toLowerCase().split("");
     // account for shifts beyond 'z' and before 'a'
-    // examples: 
+    // examples:
     //  if shift is -3 and the letter is 'a', get index 22
     //  if shift is 3 and the letter is 'z', get index 2
-    alphabetArr.map((letter)=>{
+    alphabetArr.map((letter) => {
       let shiftedIndex = alphabetArr.indexOf(letter) + shift;
       let offset = 0;
 
-      if (shiftedIndex > 25){ // 25 to account for 0th index
+      if (shiftedIndex > 25) {
+        // 25 to account for 0th index
         offset = shiftedIndex - 26;
-      }else if (shiftedIndex < 0){
+      } else if (shiftedIndex < 0) {
         offset = 26 + shiftedIndex;
-      }else{
+      } else {
         offset = shiftedIndex;
       }
       shiftMap.set(letter, alphabetArr[offset]);
-    })
+    });
 
-    const cipheredWord = inputArr.map((input)=>shiftMap.get(input) || input);
-    return cipheredWord.reduce((word, letter)=>word+=letter, '');
+    const cipheredWord = inputArr.map((input) => shiftMap.get(input) || input);
+    return cipheredWord.reduce((word, letter) => (word += letter), "");
   }
 
-  return { caesar, };
+  function getAlphabetArray(caps = false) {
+    // 65 is capitalized A; 97 is lowercase A
+    let asciiRep = caps ? 65 : 97;
+    let allLetters = [];
+
+    for (let n = 0; n < 26; n++) {
+      allLetters.push(String.fromCharCode(asciiRep));
+      asciiRep++;
+    }
+
+    return allLetters;
+  }
+
+  function getKeyByValue(value, mapObj) {
+    for (const [k, v] of mapObj.entries())
+      if (v.column === value.column && v.row === value.row) return k;
+
+    return null;
+  }
+
+  return {
+    caesar,
+  };
 })();
 
 module.exports = { caesar: caesarModule.caesar };
