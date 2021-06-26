@@ -20,8 +20,20 @@ function stringToArray(str){
     return strArr;
 }
 
+function getKeyByValue(value, mapObj){
+    for (const [k, v] of mapObj.entries()){
+
+        if (v.column === value.column && v.row === value.row){
+        return k;
+        }
+    }
+
+    return null;
+}
+  
 
 module.exports = { 
-    getAlphabetArray: getAlphabetArray,
-    stringToArray: stringToArray
+    getAlphabetArray,
+    stringToArray,
+    getKeyByValue,
 };
