@@ -9,7 +9,6 @@ describe("caesar", ()=>{
         tests.push(caesar('testing', 0));
         tests.push(caesar('testing', 26));
         tests.push(caesar('testing', 29));
-
         tests.map((test) => expect(test).to.be.false);
     })
 
@@ -30,7 +29,6 @@ describe("caesar", ()=>{
             let testAns = caesar(testStr, 3);            
             expect(testAns).to.be.eql(ansKey.get(testStr));
         });
-
     })
 
 
@@ -50,7 +48,6 @@ describe("caesar", ()=>{
 
     it("should handle non-numeric shift by returning false", ()=>{
         const testCases = [null, {key: 'value'}, "111"];
-
         testCases.map((test)=> expect(caesar('thinkful', test)).to.be.false);
     });
 })
