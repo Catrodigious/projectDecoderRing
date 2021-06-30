@@ -9,14 +9,15 @@ const substitutionModule = (function () {
     if (!cipherAlphabet || cipherAlphabet.length !== 26 || new Set(cipherAlphabet.split("")).size < 26) return false;
 
     const actualAlphabet = getAlphabetArray();
-    return encode ? encodeData(input, actualAlphabet, cipherAlphabet) : decodeData(input, actualAlphabet, cipherAlphabet);
+    const data = {input, actualAlphabet, cipherAlphabet};
+    return encode ? encodeData(data) : decodeData(data);
   }
 
   function getAlphabetArray(){
     return "abcdefghijklmnopqrstuvwxyz".split("");
   }
 
-  function encodeData(input, actualAlphabet, cipherAlphabet){
+  function encodeData({input, actualAlphabet, cipherAlphabet}){
     const subMap = new Map();
 
     for (let n=0; n < cipherAlphabet.length; n++){
@@ -28,7 +29,7 @@ const substitutionModule = (function () {
     }, "");
   }
 
-  function decodeData(input, actualAlphabet, cipherAlphabet){
+  function decodeData({input, actualAlphabet, cipherAlphabet}){
     const subMap = new Map();
 
     for (let n=0; n < cipherAlphabet.length; n++){
