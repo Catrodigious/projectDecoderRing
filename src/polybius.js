@@ -5,30 +5,14 @@
 
 const polybiusModule = (function () {
   function polybius(input, encode=true) {
-    const argsValid = argumentValidity(input, encode);
-    console.log("argsValid: ", argsValid);
+    // because some of the argument validity checks are fairly specific, made a class w/methods to check for validity
+    const argsCheck = new argumentValidity(input, encode).isValid();
+    if (!argsCheck) return false;
 
     const cipherMap = getCipherMap();
     const userInputArr = input.toLowerCase().split("");
 
     return encode ? encodeData(userInputArr, cipherMap) : decodeData(userInputArr, cipherMap);
-  }
-
-  function argumentValidity(input, encode){
-    const consensus = {};
-    const inputArr = input.split("");
-    if (!encode){
-      const numCheck = inputArr.map((input)=>isNaN(input));
-      
-      for (let n in numCheck){
-        if (numCheck[n] === false && numCheck[n+1] === false){
-          consensus.adjacentNums = true;
-          break;
-        }
-      }
-    }
-
-    return Object.keys(consensus).every((item)=>item === true);
   }
 
   // maps columns and rows to alphabet keys
@@ -72,8 +56,6 @@ const polybiusModule = (function () {
 
   // takes an array of numbers and returns a string of translated letters
   function decodeData(dataArr, cipherMap) {
-    if (!inputIsEven(dataArr)) return false;
-
     let numPair = [];
     const toDecode = [];
 
@@ -108,6 +90,7 @@ const polybiusModule = (function () {
   function getAlphabetArray(){
     return "abcdefghijklmnopqrstuvwxyz".split("");
   }
+
   // find matching key by comparing value properties
   function getKeyByValue(value, mapObj) {
     for (const [k, v] of mapObj.entries())
@@ -115,14 +98,48 @@ const polybiusModule = (function () {
     return null;
   }
 
-  // helper function for decodeData
-  function inputIsEven(inputs) {
-    const qtyNums = inputs.reduce((nums, input) => {
-      if (/[0-9]/.test(input)) nums++;
-      return nums;
-    }, 0);
+  class argumentValidity{
+    constructor(input, encode){
+      this.input = input;
+      this.inputArray = input.split("");
+      this.encode = encode;
+    }
 
-    return qtyNums % 2 !== 0 ? false : true;
+    isValid(){
+      const validityCheck = {};
+      validityCheck.inputIsStr = this.inputIsStr();
+      if (!this.encode){
+        validityCheck.adjacentNums = this.adjacentNums();
+        validityCheck.inputIsEven = this.inputIsEven();
+      }
+
+      const validity = Object.values(validityCheck).every((item)=>item === true);
+      return validity;
+    }
+
+    adjacentNums(){
+        const numCheck = this.inputArray.map((input)=>isNaN(input));
+
+        for (let n=0; n < numCheck.length; n++){
+          if ((n + 1 < numCheck.length) && (numCheck[n] === false) && (numCheck[n+1] === false)) return true;
+        }
+        return false;
+    }
+
+    inputIsEven() {
+      const qtyNums = this.inputArray.reduce((nums, input) => {
+      if (/[0-9]/.test(input)) nums++;
+        return nums;
+      }, 0);
+
+      return qtyNums % 2 !== 0 ? false : true;
+    }
+
+    inputIsStr(){
+      if (!this.input || typeof this.input !== "string" || this.input.length === 0) return false;
+      return true;
+    }
+
   }
 
   return {
