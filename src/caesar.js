@@ -29,14 +29,8 @@ const caesarModule = (function () {
   }
 
   // 97 is 'a' in ascii, so collect that and the following 25 characters into an array
-  function getAlphabetArray() {
-    const asciiRep = 97;
-    const allLetters = [];
-
-    for (let n = 0; n < 26; n++) {
-      allLetters.push(String.fromCharCode(asciiRep + n));
-    }
-    return allLetters;
+  function getAlphabetArray(){
+    return "abcdefghijklmnopqrstuvwxyz".split("");
   }
 
   return {
