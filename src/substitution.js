@@ -4,10 +4,40 @@
 // of the anonymous function on line 6
 
 const substitutionModule = (function () {
-  // you can add any code you want within this function scope
+  function substitution(input, cipherAlphabet, encode = true) {
+    if (!input || input.length === 0) return false;
+    if (!cipherAlphabet || cipherAlphabet.length !== 26 || new Set(cipherAlphabet.split("")).size < 26) return false;
 
-  function substitution(input, alphabet, encode = true) {
-    // your solution code here
+    const actualAlphabet = getAlphabetArray();
+    return encode ? encodeData : decodeData;
+  }
+
+  function getAlphabetArray(){
+    return "abcdefghijklmnopqrstuvwxyz".split("");
+  }
+
+  function encodeData(actualAlphabet, cipherAlphabet){
+    const subMap = new Map();
+
+    for (let n=0; n < cipherAlphabet.length; n++){
+      subMap.set(actualAlphabet[n], cipherAlphabet[n]);
+    }
+
+    return input.split("").reduce((subStr, i)=>{
+      return (!/[a-z]/.test(i)) ? subStr += i : subStr += subMap.get(i);
+    }, "");
+  }
+
+  function decodeData(actualAlphabet, cipherAlphabet){
+    const subMap = new Map();
+
+    for (let n=0; n < cipherAlphabet.length; n++){
+      subMap.set(cipherAlphabet[n], actualAlphabet[n]);
+    }
+
+    return input.split("").reduce((subStr, i)=>{
+      return (i === " ") ? subStr += i : subStr += subMap.get(i);
+    }, "");
   }
 
   return {
