@@ -2,7 +2,6 @@
 // as the index.html and test files rely on this setup to work properly.
 // Only add code (e.g., helper methods, variables, etc.) within the scope
 // of the anonymous function on line 6
-
 const polybiusModule = (function () {
   function polybius(input, encode=true) {
     // because some of the argument validity checks are fairly specific, made a class w/methods to check for validity
@@ -70,7 +69,6 @@ const polybiusModule = (function () {
         toDecode.push(num);
       }
     })
-
     return toDecode.reduce((decodeStr, element) => {
       if (Array.isArray(element)) {
         let compareObj = { column: element[0], row: element[1] };
@@ -78,7 +76,7 @@ const polybiusModule = (function () {
 
         if (!char) return false;
         // accounts for 'j' and 'i' sharing the same coordinates and having a special output
-        if (char === "i" || char === "j") decodeStr += "(i/j)"
+        if (char === "i" || char === "j") decodeStr += "(i/j)";
         else decodeStr += char;
       } else {
         decodeStr += element;

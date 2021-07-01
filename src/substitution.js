@@ -2,12 +2,13 @@
 // as the index.html and test files rely on this setup to work properly.
 // Only add code (e.g., helper methods, variables, etc.) within the scope
 // of the anonymous function on line 6
-
 const substitutionModule = (function () {
   function substitution(input, cipherAlphabet, encode = true) {
+    // takes care of invalid arguments
     if (!input || input.length === 0) return false;
     if (!cipherAlphabet || cipherAlphabet.length !== 26 || new Set(cipherAlphabet.split("")).size < 26) return false;
 
+    input = input.toLowerCase();
     const actualAlphabet = getAlphabetArray();
     const data = {input, actualAlphabet, cipherAlphabet};
     return encode ? encodeData(data) : decodeData(data);
@@ -17,6 +18,7 @@ const substitutionModule = (function () {
     return "abcdefghijklmnopqrstuvwxyz".split("");
   }
 
+  // substitutes the English alphabet with a custom one
   function encodeData({input, actualAlphabet, cipherAlphabet}){
     const subMap = new Map();
 
@@ -28,7 +30,7 @@ const substitutionModule = (function () {
       return (!/[a-z]/.test(i)) ? subStr += i : subStr += subMap.get(i);
     }, "");
   }
-
+  // substitutes custom alphabet with the English alphabet
   function decodeData({input, actualAlphabet, cipherAlphabet}){
     const subMap = new Map();
 

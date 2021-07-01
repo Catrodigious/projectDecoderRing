@@ -3,7 +3,8 @@
 // Only add code (e.g., helper methods, variables, etc.) within the scope
 // of the anonymous function on line 6
 const caesarModule = (function () {
-  function caesar(input, shift, encode = true) { //str, num, bool
+  // returns a "translated" phrase with each character shifted by some amount
+  function caesar(input, shift, encode = true) {
     // take care of invalid arguments
     if (typeof input !== "string") return false;
     if (shift < -25 || shift > 25 || shift === 0 || typeof shift !== "number") return false;
@@ -23,7 +24,7 @@ const caesarModule = (function () {
       else shiftedIndex = offset;
       shiftMap.set(letter, alphabetArr[shiftedIndex]);
     });
-    // matches alphabet character to shifted character; pushes non-alphabet characters as is
+    // matches alphabet character to shifted character; pushes non-alphabet characters as-is
     const cipheredWord = inputArr.map((input) => shiftMap.get(input) || input);
     return cipheredWord.reduce((word, letter) => (word += letter), "");
   }
