@@ -7,8 +7,7 @@ const substitutionModule = (function () {
     // takes care of invalid arguments
     if (!input || input.length === 0) return false;
     if (!cipherAlphabet || cipherAlphabet.length !== 26 || new Set(cipherAlphabet.split("")).size < 26) return false;
-
-    input = input.toLowerCase();
+    if (encode) input = input.toLowerCase();
     const actualAlphabet = getAlphabetArray();
     const data = {input, actualAlphabet, cipherAlphabet};
     return encode ? encodeData(data) : decodeData(data);
@@ -39,7 +38,12 @@ const substitutionModule = (function () {
     }
 
     return input.split("").reduce((subStr, i)=>{
-      return (i === " ") ? subStr += i : subStr += subMap.get(i);
+      if (i === " ") subStr += i
+      else{
+        const transStr = subMap.get(i);
+        (transStr) ? subStr += transStr : subStr += i;
+      }
+      return subStr;
     }, "");
   }
 
