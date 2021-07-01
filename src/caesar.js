@@ -7,8 +7,8 @@ const caesarModule = (function () {
   function caesar(input, shift, encode = true) {
     // take care of invalid arguments
     if (typeof input !== "string") return false;
-    if (shift < -25 || shift > 25 || shift === 0 || typeof shift !== "number") return false;
     if (!encode) shift = 0 - shift;
+    if (shift < -25 || shift > 25 || shift === 0 || typeof shift !== "number") return false;
 
     const shiftMap = new Map();
     const alphabetArr = getAlphabetArray();
