@@ -15,33 +15,33 @@ describe("polybius", ()=>{
     })
 
     it("must have at least two numbers adjacent to each other if decoding", ()=>{
-        const testKeys = ["24a53", "thinkful", "s0m3"];
+        const testCases = ["24a53", "thinkful", "s0m3"];
         const testAns = ["rap", false, false];
 
         const testMap = new Map();
-        for (let test in testKeys){
-            testMap.set(testKeys[test], testAns[test]);
+        for (let test in testCases){
+            testMap.set(testCases[test], testAns[test]);
         }
-        testKeys.map((testVal)=>{
+        testCases.map((testVal)=>{
             const testAns = polybius(testVal, false);
             expect(testAns).to.eql(testMap.get(testVal));
         })
     })
 
     it("must ignore capital letters", ()=>{
-        const testKey1 = "THIS is a Test";
-        const testKey2 = "this is a test";
+        const testCase1 = "THIS is a Test";
+        const testCase2 = "this is a test";
 
-        const testAns1 = polybius(testKey1);
-        const testAns2 = polybius(testKey2);
+        const testAns1 = polybius(testCase1);
+        const testAns2 = polybius(testCase2);
 
         expect(testAns1).to.eql("44324234 4234 11 44513444");
         expect(testAns2).to.eql("44324234 4234 11 44513444");
     })
 
     it("translates decoded 42 to (i/j)", ()=>{
-        const testKey = "44324234 4234 11 44513444";
-        const testAns = polybius(testKey, false);
+        const testCase = "44324234 4234 11 44513444";
+        const testAns = polybius(testCase, false);
         expect(testAns).to.eql("th(i/j)s (i/j)s a test");
     })
 });

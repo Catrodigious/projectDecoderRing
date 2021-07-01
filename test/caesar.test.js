@@ -14,18 +14,18 @@ describe("caesar", ()=>{
 
 
     it("should ignore non-alphabetic symbols for input", ()=>{
-        const testStrings = ["hello, world!", "404@errur.com", "this_is_a_test"];
+        const testCases = ["hello, world!", "404@errur.com", "this_is_a_test"];
         const ans = ["khoor, zruog!", "404@huuxu.frp", "wklv_lv_d_whvw"];
         const ansKey = new Map();
 
-        if (testStrings.length === ans.length){
-            for (const i in testStrings){
-                ansKey.set(testStrings[i], ans[i]);
+        if (testCases.length === ans.length){
+            for (const i in testCases){
+                ansKey.set(testCases[i], ans[i]);
             };
         }else{
             console.error("test string length differs from answer key length");
         }
-        testStrings.map((testStr)=>{
+        testCases.map((testStr)=>{
             let testAns = caesar(testStr, 3);            
             expect(testAns).to.be.eql(ansKey.get(testStr));
         });
