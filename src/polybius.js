@@ -56,7 +56,7 @@ const polybiusModule = (function () {
   function decodeData(dataArr, cipherMap) {
     let numPair = [];
     const toDecode = [];
-
+    // stores every couple of numbers into their own, size 2 array; stores non-numeric characters as-is
     dataArr.map((num) => {
       if (/[0-9]/.test(num)) {
         if (numPair.length < 2) numPair.push(Number(num));
@@ -110,8 +110,12 @@ const polybiusModule = (function () {
         validityCheck.inputIsEven = this.inputIsEven();
       }
 
-      const validity = Object.values(validityCheck).every((item)=>item === true);
-      return validity;
+      return Object.values(validityCheck).every((item)=>item === true);
+    }
+
+    inputIsStr(){
+      if (!this.input || typeof this.input !== "string" || this.input.length === 0) return false;
+      return true;
     }
 
     adjacentNums(){
@@ -130,11 +134,6 @@ const polybiusModule = (function () {
       }, 0);
 
       return qtyNums % 2 !== 0 ? false : true;
-    }
-
-    inputIsStr(){
-      if (!this.input || typeof this.input !== "string" || this.input.length === 0) return false;
-      return true;
     }
 
   }

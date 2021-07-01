@@ -6,7 +6,6 @@ const { substitution } = require('../src/substitution');
 function createRandomAlphabet(){
     // ascii characters b/w 65 and 126 seem to be standard keyboard keys
     let alphabetStr = "";
-
     for (let n=0; n < 26; n++){
         const index = Math.random() * (126 - 65) + 65;
         const char = String.fromCharCode(index);
@@ -20,11 +19,25 @@ function getAlphabetArray(){
     return "abcdefghijklmnopqrstuvwxyz".split("");
 }
 
-// 
+function generateRandomStrings(qty){
+    const alphabet = getAlphabetArray();
+    const randomStrArr = [];
+    for (let n=0; n < qty; n++){
+        const strLength = Math.floor(Math.random() * (30 - 1) + 1);
+        let randomStr = "";
+        for (let s=0; s < strLength; s++){
+            const index = Math.floor(Math.random() * 25);
+            randomStr += alphabet[index];
+        }
+        randomStrArr.push(randomStr);
+    };
+    return randomStrArr;
+}
+
 describe("substitution", ()=>{
-    it("encodes and decodes correctly", ()=>{
-        const testStrings = ["cheese", "pray return to the waking sands", "such devestation", "this was not my intenti0n"];
-        const testCaseMap = new Map();
+    it("encodes and decodes correctly (1000 tests)", ()=>{
+        const testStrings = ["cheese", "pray return to the waking sands", "such devestation", "this was not my intenti0n", ...generateRandomStrings(994)];
+        const testCaseMap = new Map(); // {};
         testStrings.map((testStr)=>{
             const alphabet = createRandomAlphabet();
             const translated = substitution(testStr, alphabet);

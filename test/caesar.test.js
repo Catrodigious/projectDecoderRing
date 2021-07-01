@@ -1,8 +1,46 @@
 const { expect } = require("chai");
 const {caesar} = require('../src/caesar');
 
+function getAlphabetArray(){
+    return "abcdefghijklmnopqrstuvwxyz".split("");
+}
 
+function generateRandomStr(){
+    const alphabet = getAlphabetArray();
+    // can use getRandomShift to generate string length and generate letters
+    const newStringLength = generateRandomShift();
+    let newStr = "";
+    for (let n=0; n < newStringLength; n++){
+        const index = generateRandomShift();
+        newStr += alphabet[index];
+    }
+
+    return newStr;
+}
+
+function generateRandomShift(){
+    return Math.floor((Math.random() * (24 - 1) + 1));
+}
+
+// function caesar(input <string>, shift <number>, encode=true <bool>)
 describe("caesar", ()=>{
+    it("should encode/decode correctly (1000 tests)", ()=>{
+        let testCases = [];
+        let count = 0;
+
+        for (let n=0; n < 1000; n++){
+            const randomStr = generateRandomStr();
+            testCases[n] = randomStr;
+        }
+        testCases.map((test)=>{
+            const shift = generateRandomShift();
+            const encoded = caesar(test, shift);
+            const decoded = caesar(encoded, shift, false);
+            expect(decoded).to.eql(test);
+        });    
+        
+    })
+
     it("should return false if shift equals 0 or is < -25 or > 25", ()=>{
         const tests = [];
 
@@ -26,7 +64,8 @@ describe("caesar", ()=>{
             console.error("test string length differs from answer key length");
         }
         testCases.map((testStr)=>{
-            let testAns = caesar(testStr, 3);            
+            let testAns = caesar(testStr, 3);
+            
             expect(testAns).to.be.eql(ansKey.get(testStr));
         });
     })
@@ -51,4 +90,3 @@ describe("caesar", ()=>{
         testCases.map((test)=> expect(caesar('thinkful', test)).to.be.false);
     });
 })
-

@@ -2,16 +2,50 @@
 const { expect } = require("chai");
 const { polybius } = require("../src/polybius");
 
+function getAlphabetArray(){
+    return "abcdefghijklmnopqrstuvwxyz".split("");
+}
+
+function generateRandomStrings(qty){
+    const alphabet = getAlphabetArray();
+    const randomStrArr = [];
+    for (let n=0; n < qty; n++){
+        const strLength = Math.floor(Math.random() * (30 - 1) + 1);
+        let randomStr = "";
+        for (let s=0; s < strLength; s++){
+            const index = Math.floor(Math.random() * 25);
+            randomStr += alphabet[index];
+        }
+        randomStrArr.push(randomStr);
+    };
+    return randomStrArr;
+}
 
 describe("polybius", ()=>{
-    it("encodes correctly", ()=>{
-        const testAns = polybius('thinkful');
-        expect(testAns).to.eql("4432423352125413");
-    })
+    it("encodes and decodes correctly (1000 test)", ()=>{
+        const testCases = generateRandomStrings(1000);
+        const testMap = new Map();
+        let index = 0;
+    
+        testCases.map((testStr)=>{
+            let jiReplaceStr = "";
 
-    it("decodes correctly", ()=>{
-        const testAns = polybius("4432423352125413", false);
-        expect(testAns).to.eql("th(i/j)nkful");
+            for (char of testStr){
+                if (char === "i" || char === "j"){
+                    jiReplaceStr += "(i/j)";
+                }else{
+                    jiReplaceStr += char;
+                }
+            }
+            const encodeStr = polybius(testStr);
+            testMap.set(encodeStr, jiReplaceStr);
+        })
+        for (let [encoded, jiReplaceStr] of testMap.entries()){
+            const result = polybius(encoded, false);
+            expect(result).to.eql(jiReplaceStr);
+            index++;
+        }
+
     })
 
     it("must have at least two numbers adjacent to each other if decoding", ()=>{
