@@ -7,7 +7,6 @@ const polybiusModule = (function () {
     // because some of the argument validity checks are fairly specific, made a class w/methods to check for validity
     const argsCheck = new argumentValidity(input, encode).isValid();
     if (!argsCheck) return false;
-
     const cipherMap = getCipherMap();
     const userInputArr = input.toLowerCase().split("");
 
@@ -30,7 +29,7 @@ const polybiusModule = (function () {
         polyMap.set(char, coord);
         continue;
       }
-      column < 5 ? column++ : (column = 1);
+      (column < 5) ? column++ : column = 1;
       if (column === 1) row++;
     }
 
