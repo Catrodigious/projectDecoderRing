@@ -29,7 +29,7 @@ const caesarModule = (function () {
     return cipheredWord.reduce((word, letter) => (word += letter), "");
   }
 
-  // 97 is 'a' in ascii, so collect that and the following 25 characters into an array
+  // returns an alphabet string transformed into an array
   function getAlphabetArray(){
     return "abcdefghijklmnopqrstuvwxyz".split("");
   }
